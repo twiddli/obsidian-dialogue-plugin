@@ -15,19 +15,19 @@ Parameters can be set using commands inside the dialogue. All available paramete
 | `left:` or `l:`          | Name of the dialogue participant on the left side.                                     | none          |
 | `right:` or `r:`         | Name of the dialogue participant on the right side.                                    | none          |
 | `center:` or `c:`        | Name of the dialogue participant in the middle.                                        | none          |
+| `titleMode:`             | Defines if and when to render titles. See available modes in the table below.          | `first`       |
 | `leftFooter:` or `lf:`   | Default footer content for the dialogue on the left side.                              | none          |
 | `rightFooter:`  or `rf:` | Default footer content for the dialogue on the right side.                             | none          |
 | `centerFooter:` or `cf:` | Default footer content for the dialogue on the middle.                                 | none          |
-| `titleMode:`             | Defines if and when to render titles. See available modes in the table below.          | `first`       |
-| `footerMode:`            | Defines if and when to render default footers. See available modes in the table below. | `all`    |
+| `footerMode:`            | Defines if and when to render default footers. See available modes in the table below. | `all`         |
 | `messageMaxWidth:`       | Defines the max message width in the dialogue.                                         | `60%`         |
 | `commentMaxWidth:`       | Defines the max comment width in the dialogue.                                         | `60%`         |
-| `clean:`                 | Hide unparsable text.                                                                  | `true`        |
 | `renderMarkdownTitle:`   | Render markdown in the title.                                                          | `true`        |
 | `renderMarkdownContent:` | Render markdown in the content.                                                        | `true`        |
 | `renderMarkdownFooter:`  | Render markdown in the footer.                                                         | `true`        |
 | `renderMarkdownComment:` | Render markdown in the comment.                                                        | `true`        |
-
+| `clean:`                 | Hide unparsable text.                                                                  | `true`        |
+| `ignore:`           	   | Ignore lines matching the given regex pattern.                                         | none          |
 
 ### Title Modes
 

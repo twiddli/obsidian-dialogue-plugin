@@ -52,6 +52,7 @@ export interface DialogueSettings {
     titleMode: DialogueTitleMode;
     footerMode: DialogueFooterMode;
     clean: boolean;
+    ignore: string;
     renderMarkdownTitle: boolean;
     renderMarkdownContent: boolean;
     renderMarkdownFooter: boolean;
@@ -70,6 +71,8 @@ export class DialogueRenderer {
     dialogueWrapperEl: HTMLElement;
 
     dialogueSettings: DialogueSettings;
+
+    ignorePatterns: Record<string, RegExp> = {};
 
     constructor(component: Component, src: string, parent: HTMLElement, settings: DialoguePluginSettings) {
         this.component = component;
@@ -105,6 +108,7 @@ export class DialogueRenderer {
                 content: settings.defaultCenterFooter,
             },
             clean: settings.defaultClean,
+            ignore: settings.defaultIgnore,
             renderMarkdownTitle: settings.defaultRenderMarkdownTitle,
             renderMarkdownContent: settings.defaultRenderMarkdownContent,
             renderMarkdownFooter: settings.defaultRenderMarkdownFooter,
@@ -135,6 +139,14 @@ export class DialogueRenderer {
         return enforcedId;
     }
 
+    getIgnorePattern(pattern: string): RegExp {
+        if (!this.ignorePatterns[pattern]) {
+            this.ignorePatterns[pattern] = new RegExp(`${pattern}`);
+        }
+
+        return this.ignorePatterns[pattern];
+    }
+
     renderDialogue() {
         const lines = this.src
             .split(/\r?\n/)
@@ -154,7 +166,10 @@ export class DialogueRenderer {
 
             let content: string = '';
 
-            if (KEYWORDS.LEFT_PATTERN.test(line)) {
+            if (this.dialogueSettings.ignore && this.getIgnorePattern(this.dialogueSettings.ignore).test(line)) {
+                continue;
+            }
+            else if (KEYWORDS.LEFT_PATTERN.test(line)) {
                 this.dialogueSettings.leftParticipant.title = line.split(':').splice(1).join(':').trim();
                 this.dialogueSettings.leftParticipant.renderedOnce = false; // reset this flag when a new title is set
                 this.dialogueSettings.leftParticipant.enforcedId = this.getEnforcedId(KEYWORDS.LEFT_PATTERN, line);

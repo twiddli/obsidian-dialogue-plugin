@@ -10,7 +10,6 @@ export interface DialoguePluginSettings {
 	defaultLeftFooter: string;
 	defaultRightFooter: string;
 	defaultCenterFooter: string;
-	defaultClean: boolean;
 	defaultRenderMarkdownTitle: boolean;
 	defaultRenderMarkdownContent: boolean;
 	defaultRenderMarkdownFooter: boolean;
@@ -19,6 +18,8 @@ export interface DialoguePluginSettings {
 	defaultFooterMode: DialogueFooterMode;
 	defaultMessageMaxWidth: string;
 	defaultCommentMaxWidth: string;
+	defaultClean: boolean;
+	defaultIgnore: string;
 }
 
 export const DEFAULT_SETTINGS: DialoguePluginSettings = {
@@ -29,6 +30,7 @@ export const DEFAULT_SETTINGS: DialoguePluginSettings = {
 	defaultRightFooter: '',
 	defaultCenterFooter: '',
 	defaultClean: true,
+	defaultIgnore: '',
 	defaultRenderMarkdownTitle: true,
 	defaultRenderMarkdownContent: true,
 	defaultRenderMarkdownFooter: true,
@@ -196,6 +198,16 @@ export class DialogueSettingTab extends PluginSettingTab {
 			toggle.setValue(this.plugin.settings.defaultClean)
 					.onChange(async (value) => {
 						this.plugin.settings.defaultClean = value;
+						await this.plugin.saveSettings();
+					}));
+
+		new Setting(containerEl)
+		.setName('Default ignore')
+		.setDesc('Default regex pattern for lines to ignore.')
+		.addText(toggle =>
+			toggle.setValue(this.plugin.settings.defaultIgnore)
+					.onChange(async (value) => {
+						this.plugin.settings.defaultIgnore = value;
 						await this.plugin.saveSettings();
 					}));
 
